@@ -2,7 +2,7 @@ function App() {
   return (
     <div>
       
-      <h1>Hello Spring/React!!</h1>
+      <h1 className="text-primary">Hello Spring/React!!</h1>
 
     </div>
   );
