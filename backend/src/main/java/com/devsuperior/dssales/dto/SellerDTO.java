@@ -33,6 +33,10 @@ public class SellerDTO implements Serializable{
 		this.id = id;
 	}
 
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+	
 	public String getName() {
 		return name;
 	}
