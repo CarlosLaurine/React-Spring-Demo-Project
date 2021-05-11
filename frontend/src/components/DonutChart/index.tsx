@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { useEffect, useState } from 'react'
 import Chart from 'react-apexcharts'
 import { SaleSum } from 'types/sale'
 import { BASE_URL } from 'utils/requests'
@@ -12,19 +13,23 @@ type ChartData = {
 
 const DonutChart = () => {
 
-let chartData : ChartData = { labels: [], series: []}
+    const [chartData, setChartData] = useState<ChartData>({ labels: [], series: [] })
 
-axios.get(`${BASE_URL}/sales/sum-per-seller`)
-     .then(response => {
+    useEffect(() => {
 
-        const apiData = response.data as SaleSum[]
-        const apiLabels = apiData.map(data => data.sellerName)
-        const apiSeries = apiData.map(data => data.sum)
+        axios.get(`${BASE_URL}/sales/sum-per-seller`)
+            .then(response => {
 
-        chartData = { labels: apiLabels, series: apiSeries }
+                const apiData = response.data as SaleSum[]
+                const apiLabels = apiData.map(data => data.sellerName)
+                const apiSeries = apiData.map(data => data.sum)
 
-        console.log(chartData);
-     })
+                setChartData({ labels: apiLabels, series: apiSeries })
+
+            })
+
+    }, [])
+
 
     const options = {
         legend: {
@@ -36,22 +41,22 @@ axios.get(`${BASE_URL}/sales/sum-per-seller`)
 
     //    labels: ['Anakin', 'Barry Allen', 'Kal-El', 'Logan', 'Padmé'],
     //    series: [477138, 499928, 444867, 220426, 473088]
-        
+
     //}
-    
+
 
     return (
         <Chart
 
-        options = {{...options, labels: chartData.labels}}
-        series = {chartData.series}
-        type="donut"
-        height="240"
-        
-        
+            options={{ ...options, labels: chartData.labels }}
+            series={chartData.series}
+            type="donut"
+            height="240"
+
+
         />
 
-     
+
 
     );
 }
