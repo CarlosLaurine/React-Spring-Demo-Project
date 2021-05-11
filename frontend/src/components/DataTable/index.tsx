@@ -1,4 +1,30 @@
+import axios from "axios"
+import { useEffect, useState } from "react"
+import { SalePage } from "types/sale"
+import { isTemplateTail } from "typescript"
+import { formatLocalDate } from "utils/format"
+import { BASE_URL } from "utils/requests"
+
 const DataTable = () => {
+
+    const [page, setPage] = useState<SalePage>({
+
+        first: true,
+        last: true,
+        number: 0,
+        totalElements: 0,
+        totalPages: 0,
+    })
+
+    useEffect(() => {
+
+        axios.get(`${BASE_URL}/sales?page=0&size=20&sort=date,desc`)
+            .then(response => {
+                setPage(response.data)
+            })
+
+    }, [])
+
     return (
 
         <div className="table-responsive">
@@ -13,68 +39,20 @@ const DataTable = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>22/04/2021</td>
-                        <td>Barry Allen</td>
-                        <td>34</td>
-                        <td>25</td>
-                        <td>15017.00</td>
-                    </tr>
-                    <tr>
-                        <td>22/04/2021</td>
-                        <td>Barry Allen</td>
-                        <td>34</td>
-                        <td>25</td>
-                        <td>15017.00</td>
-                    </tr><tr>
-                        <td>22/04/2021</td>
-                        <td>Barry Allen</td>
-                        <td>34</td>
-                        <td>25</td>
-                        <td>15017.00</td>
-                    </tr><tr>
-                        <td>22/04/2021</td>
-                        <td>Barry Allen</td>
-                        <td>34</td>
-                        <td>25</td>
-                        <td>15017.00</td>
-                    </tr><tr>
-                        <td>22/04/2021</td>
-                        <td>Barry Allen</td>
-                        <td>34</td>
-                        <td>25</td>
-                        <td>15017.00</td>
-                    </tr><tr>
-                        <td>22/04/2021</td>
-                        <td>Barry Allen</td>
-                        <td>34</td>
-                        <td>25</td>
-                        <td>15017.00</td>
-                    </tr><tr>
-                        <td>22/04/2021</td>
-                        <td>Barry Allen</td>
-                        <td>34</td>
-                        <td>25</td>
-                        <td>15017.00</td>
-                    </tr><tr>
-                        <td>22/04/2021</td>
-                        <td>Barry Allen</td>
-                        <td>34</td>
-                        <td>25</td>
-                        <td>15017.00</td>
-                    </tr><tr>
-                        <td>22/04/2021</td>
-                        <td>Barry Allen</td>
-                        <td>34</td>
-                        <td>25</td>
-                        <td>15017.00</td>
-                    </tr><tr>
-                        <td>22/04/2021</td>
-                        <td>Barry Allen</td>
-                        <td>34</td>
-                        <td>25</td>
-                        <td>15017.00</td>
-                    </tr>
+
+                    {page.content?.map(x => (
+
+                        <tr key = {x.id}>
+                            <td>{formatLocalDate(x.date, "dd/MM/yyyy")}</td>
+                            <td>{x.seller.name}</td>
+                            <td>{x.visited}</td>
+                            <td>{x.deals}</td>
+                            <td>{x.amount.toFixed(3)}</td>
+                        </tr>
+
+                    ))}
+
+
                 </tbody>
             </table>
         </div>
@@ -83,3 +61,7 @@ const DataTable = () => {
 }
 
 export default DataTable;
+
+function totalElements<T>(first: any, arg1: boolean, last: any, arg3: boolean, number: any, arg5: number, totalElements: any, arg7: number, totalPages: any, arg9: number): [any, any] {
+    throw new Error("Function not implemented.");
+}
