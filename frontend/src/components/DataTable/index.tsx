@@ -2,7 +2,6 @@ import axios from "axios"
 import Pagination from "components/Pagination"
 import { useEffect, useState } from "react"
 import { SalePage } from "types/sale"
-import { isTemplateTail } from "typescript"
 import { formatLocalDate } from "utils/format"
 import { BASE_URL } from "utils/requests"
 
@@ -71,6 +70,3 @@ const DataTable = () => {
 
 export default DataTable;
 
-function totalElements<T>(first: any, arg1: boolean, last: any, arg3: boolean, number: any, arg5: number, totalElements: any, arg7: number, totalPages: any, arg9: number): [any, any] {
-    throw new Error("Function not implemented.");
-}
